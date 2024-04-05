@@ -1,0 +1,8 @@
+basePath: /v1
+info:
+  contact: {}
+  description: echo-swagger 통한 API 문서화
+  title: go-example
+  version: "1.0"
+paths: {}
+swagger: "2.0"

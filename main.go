@@ -2,13 +2,21 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
+	_ "go-example/docs" // swag cli에 의해 생성되므로 가져와야 합니다.
 	"go-example/src/router"
 	"net/http"
 )
 
+// @title							go-example
+// @version							1.0
+// @description						echo-swagger 통한 API 문서화
+// @BasePath						/v1
 func main() {
 	// Echo 인스턴스 생
 	e := echo.New()
+
+	e.GET("/v1/*", echoSwagger.WrapHandler)
 
 	// /hello 엔드포인트에 대한 핸들러 함수 등록
 	e.GET("/", func(c echo.Context) error {
