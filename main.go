@@ -16,7 +16,9 @@ func main() {
 	// Echo 인스턴스 생
 	e := echo.New()
 
-	e.GET("/v1/*", echoSwagger.WrapHandler)
+	swagDocList := echoSwagger.DocExpansion("none") // // API 문서 목록을 펼쳐 보여주지 않는 옵션
+
+	e.GET("/v1/*", echoSwagger.EchoWrapHandler(swagDocList))
 
 	// /hello 엔드포인트에 대한 핸들러 함수 등록
 	e.GET("/", func(c echo.Context) error {

@@ -4,5 +4,39 @@ info:
   description: echo-swagger 통한 API 문서화
   title: go-example
   version: "1.0"
-paths: {}
+paths:
+  /hellos:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Hello,
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      tags:
+      - Hello
+  /worlds:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: World!
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      tags:
+      - World
 swagger: "2.0"
