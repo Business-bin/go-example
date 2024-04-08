@@ -1,0 +1,26 @@
+FROM golang:1.20-alpine as builder
+
+ENV CGO_ENABLED=0
+
+WORKDIR /build
+
+COPY . ./
+
+RUN go mod tidy
+
+RUN go build -o go-example -gcflags "all=-N -l" . # 디버깅 정확성을 위해 컴파일러 최적화 비활성화(컨테이너 내에서 이진 파일이 빌드된다)
+
+# Delve 디버거 설치
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+FROM alpine:3.16
+
+COPY --from=builder /build/go-example /bin/
+# Delve 복사
+COPY --from=builder /go/bin/dlv /dlv
+
+# 33333 은 디버거 서버 포트
+EXPOSE 3333 33333
+
+# 디버거 붙여서 서비스 프로세스 실행
+CMD ["/dlv", "--listen=:33333", "--headless=true", "--api-version=2", "--accept-multiclient", "--check-go-version=false", "--only-same-user=false", "exec", "/bin/go-example", "--continue"]

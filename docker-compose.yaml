@@ -1,0 +1,15 @@
+version: "3"
+services:
+  go-example:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    ports:
+      - "3003:3333"
+  go-example-debug:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile_Debug
+    ports:
+      - "30031:3333"
+      - "30033:33333"
